@@ -8,8 +8,13 @@
 /* Base page styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f1f1f1;
+  background-color: #17171b;
   padding: 20px;
+}
+
+/* Prevent background scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
 }
 
 /* Centered container */
@@ -29,9 +34,9 @@ body {
 }
 
 h1 {
-  font-family: Verdana, sans-serif;
-  font-weight: bold;
-  color: #212121;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  color: #fff;
 }
 
 /* Logo */
@@ -66,12 +71,12 @@ button {
 
 /* Button specific */
 button {
-  background-color: #d3d3d3;
-  color: black;
+  background-color: #0032a0;
+  color: white;
   cursor: pointer;
 }
 button:hover {
-  background-color: #bfbfbf;
+  background-color: #144ecb;
 }
 
 /* Stack horizontally on wider screens */
@@ -108,6 +113,11 @@ button:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: transform 0.2s ease-in-out;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
 }
 
 /* Three columns on wider screens */
@@ -125,9 +135,15 @@ button:hover {
 }
 
 .gallery-item p {
-  margin-top: 10px;
-  padding: 5px;
+  font-family: 'DM Mono', sans-serif;
+  margin-top: 5px;
+  padding: 5px 0px;
   font-size: 14px;
+}
+
+.gallery-item h3 {
+  font-family: 'Inter', sans-serif;
+  margin-top: 10px;
 }
 
 /* Placeholder content */
@@ -135,10 +151,116 @@ button:hover {
   flex: 1 1 100%;
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: #ddd;
 }
 
 .placeholder-icon {
   font-size: 48px;
   margin-bottom: 20px;
+}
+
+#image-modal {
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.7);
+  align-items: center;
+  justify-content: center;
+  display: none; /* Only this initially */
+}
+
+
+.modal-content {
+  background: #fff;
+  border-radius: 8px;
+  max-width: 900px;
+  max-height: 95vh;
+  padding: 24px 20px 20px 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  position: relative;
+  text-align: center;
+  animation: modal-fade-in 0.2s;
+  display: flex;
+  flex-direction: column;
+justify-content: flex-start;
+  margin: auto;
+  width: auto;
+  max-width: 95vw;
+  gap: 16px;
+  overflow-y: auto; /* Allow scrolling if content is too tall */
+}
+
+
+@keyframes modal-fade-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-img {
+  width: 100%;
+  height: auto;
+  max-height: 60vh; /* Allow image to be taller on large screens */
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+}
+
+.modal-title {
+  font-size: 1.3em;
+  margin-top: 10px;
+  color: #212121;
+}
+
+.modal-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 1em;
+  color: #666;
+}
+
+.modal-explanation {
+  font-family: 'Public Sans', monospace;
+  color: #333;
+  margin: 10px 20px;
+  text-align: left;
+  max-width: 700px;
+  overflow-wrap: break-word;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px; right: 18px;
+  font-size: 2em;
+  color: #888;
+  cursor: pointer;
+  font-weight: bold;
+  background: none;
+  border: none;
+  line-height: 1;
+  z-index: 10; /* Ensure close button is always on top */
+}
+
+.modal-close:hover {
+  color: #212121;
+}
+
+.responsive-video {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto 16px auto;
+}
+
+.responsive-video iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
