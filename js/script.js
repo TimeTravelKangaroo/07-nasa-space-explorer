@@ -128,8 +128,9 @@ function openModal(item) {
 
     if (!videoEmbed) {
       videoEmbed = `
-          <img class="modal-img" src="img/video-placeholder.png" alt="video placeholder"/>
-          <p>Video not available, click the image to be taken to youtube</p>
+          <a href="${item.url}" target="_blank" rel="noopener">
+          <img class="modal-img" src="img/video-placeholder.png" alt="video placeholder"/></a>
+        
       `;
     }
     mediaDiv.innerHTML = videoEmbed;
@@ -172,23 +173,26 @@ function showGallery(items) {
 
   // Loop through each item and create a gallery card
   items.forEach(item => {
+    // Create a div for each gallery item
     const div = document.createElement('div');
     div.className = 'gallery-item';
 
     if (item.media_type === 'image') {
-      // Use template literals to add image, title, and date
+      // If the item is an image, show the image, title, and date
       div.innerHTML = `
         <img src="${item.url}" alt="${item.title}" />
         <h3>${item.title}</h3>
         <p>${item.date}</p>
       `;
+      // When clicked, open the modal with details
       div.addEventListener('click', () => {
         openModal(item);
       });
     } else if (item.media_type === 'video') {
+      // If the item is a video, try to embed it if it's from YouTube
       let videoEmbed = '';
+      let videoId = '';
       if (item.url.includes('youtube.com') || item.url.includes('youtu.be')) {
-        let videoId = '';
         const youtubeMatch = item.url.match(/v=([^&]+)/);
         const youtuBeMatch = item.url.match(/youtu\.be\/([^?&]+)/);
         if (youtubeMatch) {
@@ -202,21 +206,27 @@ function showGallery(items) {
               <iframe src="https://www.youtube.com/embed/${videoId}" 
                 frameborder="0" allowfullscreen></iframe>
             </div>
+            <h3>${item.title}</h3>
+            <p>${item.date}</p>
           `;
         }
       }
-      
+      // If not a YouTube video, show a placeholder image and link
       if (!videoEmbed) {
-        div.innerHTML = `
-        <img src="img/video-placeholder.png" alt="video placeholder" />
-        <h3>${item.title}</h3>
-        <p>${item.date}</p>
-      `;
+        videoEmbed = `
+          <img src="img/video-placeholder.png" alt="video placeholder" />
+          <h3><a href ="${item.url}" target="_blank" rel="noopener">${item.title}</a></h3>
+          <p>${item.date}</p>
+        `;
+      }
+      div.innerHTML = videoEmbed;
+      // When clicked, open the modal with details
       div.addEventListener('click', () => {
         openModal(item);
       });
-    }}
-     gallery.appendChild(div);
+    }
+    // Add the gallery item to the gallery
+    gallery.appendChild(div);
   });
 
   // If no items were added (should not happen), show a message
@@ -241,27 +251,3 @@ getImagesButton.addEventListener('click', () => {
   // Fetch APOD data for the new date range
   fetchApodData(startDate, endDate);
 });
-  const startDate = startInput.value;
-  const endDate = endInput.value;
-  // Fetch APOD data for the new date range
-  fetchApodData(startDate, endDate);
-  
-// When the button is clicked, fetch and show images for the selected date range
-getImagesButton.addEventListener('click', () => {
-  const startDate = startInput.value;
-  const endDate = endInput.value;
-  fetchApodData(startDate, endDate);
-});
-
-// Optionally, fetch data for the default date range on page load
-fetchApodData(startInput.value, endInput.value);
-fetchApodData(startInput.value, endInput.value);
-getImagesButton.addEventListener('click', () => {
-  const startDate = startInput.value;
-  const endDate = endInput.value;
-  fetchApodData(startDate, endDate);
-});
-
-// Optionally, fetch data for the default date range on page load
-fetchApodData(startInput.value, endInput.value);
-fetchApodData(startInput.value, endInput.value);

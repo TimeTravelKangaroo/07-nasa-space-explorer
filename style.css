@@ -143,6 +143,8 @@ button:hover {
 
 .gallery-item h3 {
   font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: #212121;
   margin-top: 10px;
 }
 
